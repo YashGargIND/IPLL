@@ -9,15 +9,18 @@ section .data
     len4 equ $ - prompt4
 
 section .bss
-    oper resb 3
-    num1 resb 3
-    num2 resb 3
-    result resb 3
+    oper: resb 1
+    num1: resb 4
+    num2: resb 4
+    result: resb 4
 
 section .text
     global _start
 
 _start:
+    mov dword [num1], __float32__(0.00)
+    mov dword [num2], __float32__(0.00)
+   
     ; CHOOSE NUM1 PROMPT
     mov edx, len2 
     mov ecx, prompt2
@@ -27,8 +30,8 @@ _start:
 
     mov eax, 3
     mov ebx, 0
-    mov ecx, num1
-    mov edx, 3
+    mov ecx, num1 
+    mov edx, 4
     int 0x80
 
     ; CHOOSE NUM2 PROMPT
@@ -41,7 +44,7 @@ _start:
     mov eax, 3
     mov ebx, 0
     mov ecx, num2
-    mov edx, 3
+    mov edx, 4
     int 0x80
 
     ; CHOOSE OPERATOR PROMPT
@@ -54,19 +57,19 @@ _start:
     mov eax, 3
     mov ebx, 0
     mov ecx, oper
-    mov ebx, 3
+    mov edx, 1
     int 0x80
 
-    cmp edx, 1
+    cmp ecx, 1
     je addr
 
-    cmp edx, 2
+    cmp ecx, 2
     je subr
 
-    cmp edx, 3
+    cmp ecx, 3
     je mulr
 
-    cmp edx, 4
+    cmp ecx, 4
     je divr
 
     addr:
